@@ -1,5 +1,5 @@
 /**
- * TOBORE WEDDING JOTTER - LUXURY MAGAZINE FLIP ENGINE
+ * TOBORE WEDDING Program - LUXURY MAGAZINE FLIP ENGINE
  * Built on Turn.js with responsive fullscreen, smart cover spread slicing, audio synthesis, and graceful fallback.
  */
 
@@ -9,7 +9,7 @@
   // Default number of pages shown in the magazine
   const DEFAULT_TOTAL_PAGES = 12;
   // Versioned storage key so the new default (12) replaces any count saved under the old default (10)
-  const PAGES_STORAGE_KEY = 'wedding_jotter_pages_v2';
+  const PAGES_STORAGE_KEY = 'wedding_Program_pages_v2';
 
   // Configuration settings (easily customizable)
   const CONFIG = {
@@ -18,10 +18,10 @@
     imageFolder: 'images/',
     extensions: ['jpg', 'png', 'jpeg', 'webp', 'JPG', 'PNG', 'JPEG', 'WEBP'],
     pageRatio: 1.414, // Standard Book proportion (width * ratio = height per single page)
-    soundEnabled: localStorage.getItem('wedding_jotter_sound') !== 'false',
+    soundEnabled: localStorage.getItem('wedding_Program_sound') !== 'false',
     autoPlayInterval: 4000,
     idleHideDelay: 3500, // ms of inactivity before controls fade away (pointer devices only)
-    title: 'Tobore Wedding Jotter'
+    title: 'Tobore Wedding Program'
   };
 
   let flipbook = null;
@@ -58,10 +58,9 @@
     btnPlay: document.getElementById('btn-play'),
     playIcon: document.getElementById('play-icon'),
     pauseIcon: document.getElementById('pause-icon'),
-    fsGate: document.getElementById('fs-gate'),
-    fsGateText: document.getElementById('fs-gate-text'),
-    btnEnterFs: document.getElementById('btn-enter-fs'),
-    btnEnterFsLabel: document.getElementById('btn-enter-fs-label'),
+    btnFullscreen: document.getElementById('btn-fullscreen'),
+    iconFullscreenEnter: document.getElementById('icon-fs-enter'),
+    iconFullscreenExit: document.getElementById('icon-fs-exit'),
     btnThumbs: document.getElementById('btn-thumbs'),
     thumbsModal: document.getElementById('thumbs-modal'),
     thumbsGrid: document.getElementById('thumbs-grid'),
@@ -293,40 +292,25 @@
   }
 
   // =========================================================================
-  // VIEWPORT & RESPONSIVE GEOMETRY
+  // VIEWPORT & RESPONSIVE GEOMETRY (COMPULSORY DESKTOP 2-PAGE SPREAD)
   // =========================================================================
   function calculateBookDimensions() {
     const stageWidth = elements.stage.clientWidth - 40;
     const stageHeight = elements.stage.clientHeight - 30;
 
-    // Determine if single or double page display based on screen width
-    const isSinglePage = window.innerWidth <= 768;
+    // Compulsory Desktop View: Always 2-page spread (double)
+    const spreadRatio = 2 / CONFIG.pageRatio;
+    const arrowGutter = stageWidth > 800 ? 140 : 80;
+    const maxH = stageHeight * 0.94;
+    const maxW = Math.max(stageWidth - arrowGutter, stageWidth * 0.85);
 
-    let targetWidth, targetHeight;
-
-    if (isSinglePage) {
-      // Single page view: aspect ratio is width : height (~1 : 1.414)
-      const maxH = stageHeight * 0.95;
-      const maxW = stageWidth * 0.95;
-
-      targetHeight = Math.min(maxH, maxW * CONFIG.pageRatio);
-      targetWidth = targetHeight / CONFIG.pageRatio;
-    } else {
-      // 2-page spread view: aspect ratio is 2 * width : height (~2 : 1.414 = ~1.414 spread aspect ratio)
-      // Reserve room on both sides so the floating arrows never cover the pages
-      const spreadRatio = 2 / CONFIG.pageRatio;
-      const arrowGutter = window.innerWidth > 1024 ? 180 : 120;
-      const maxH = stageHeight * 0.96;
-      const maxW = Math.max(stageWidth - arrowGutter, stageWidth * 0.8);
-
-      targetWidth = Math.min(maxW, maxH * spreadRatio);
-      targetHeight = targetWidth / spreadRatio;
-    }
+    let targetWidth = Math.min(maxW, maxH * spreadRatio);
+    let targetHeight = targetWidth / spreadRatio;
 
     return {
       width: Math.floor(targetWidth),
       height: Math.floor(targetHeight),
-      display: isSinglePage ? 'single' : 'double'
+      display: 'double'
     };
   }
 
@@ -522,91 +506,34 @@
   }
 
   // =========================================================================
-  // COMPULSORY FULLSCREEN
-  // Browsers only allow fullscreen after a user gesture, so a gate overlay
-  // blocks the magazine until the reader enters fullscreen. Leaving
-  // fullscreen (e.g. pressing Esc) brings the gate back.
+  // FULLSCREEN TOGGLE (OPTIONAL)
   // =========================================================================
-  function isFullScreen() {
-    return !!(document.fullscreenElement || document.webkitFullscreenElement);
-  }
-
-  function enterFullScreen() {
-    const docEl = document.documentElement;
-    try {
+  function toggleFullScreen() {
+    if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+      const docEl = document.documentElement;
       if (docEl.requestFullscreen) {
-        return Promise.resolve(docEl.requestFullscreen({ navigationUI: 'hide' }));
+        docEl.requestFullscreen();
       } else if (docEl.webkitRequestFullscreen) {
         docEl.webkitRequestFullscreen();
-        return Promise.resolve();
       }
-    } catch (e) {
-      return Promise.reject(e);
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+      }
     }
-    return Promise.reject(new Error('Fullscreen API not supported'));
   }
 
-  function showFsGate() {
-    stopAutoPlay();
-    closeModals();
-    elements.fsGate.classList.add('active');
-    elements.app.classList.add('gated');
-    setTimeout(() => elements.btnEnterFs.focus(), 50);
-  }
-
-  function hideFsGate() {
-    elements.fsGate.classList.remove('active');
-    elements.app.classList.remove('gated');
-    resetIdleTimer();
-  }
-
-  function isGateOpen() {
-    return elements.fsGate.classList.contains('active');
-  }
-
-  function handleEnterFsClick() {
-    initAudio();
-    if (!fsSupported) {
-      // e.g. iPhone Safari: no Fullscreen API for pages, use immersive layout instead
-      hideFsGate();
-      return;
-    }
-    enterFullScreen()
-      .then(() => {
-        // Gate is hidden by the fullscreenchange handler; also hide here for older webkit
-        setTimeout(() => { if (isFullScreen()) hideFsGate(); }, 200);
-      })
-      .catch((err) => {
-        // Fullscreen was refused (e.g. embedded iframe) – never lock the reader out
-        console.warn('Fullscreen request was rejected:', err);
-        hideFsGate();
-      });
-  }
-
-  function onFullscreenChange() {
-    if (isFullScreen()) {
-      hideFsGate();
-    } else if (fsSupported && !isStandaloneApp) {
-      elements.fsGateText.textContent = 'You left full screen. Return to continue reading.';
-      elements.btnEnterFsLabel.textContent = 'Return to Full Screen';
-      showFsGate();
-    }
+  function updateFullscreenIcons() {
+    if (!elements.btnFullscreen) return;
+    const isFs = !!(document.fullscreenElement || document.webkitFullscreenElement);
+    if (elements.iconFullscreenEnter) elements.iconFullscreenEnter.style.display = isFs ? 'none' : 'block';
+    if (elements.iconFullscreenExit) elements.iconFullscreenExit.style.display = isFs ? 'block' : 'none';
+    elements.btnFullscreen.classList.toggle('active', isFs);
 
     // Allow browser animation to settle before resizing
     setTimeout(handleResize, 150);
-  }
-
-  function setupFsGate() {
-    if (isStandaloneApp) {
-      // Launched from home screen with display: fullscreen – already immersive
-      hideFsGate();
-      return;
-    }
-    if (!fsSupported) {
-      elements.fsGateText.textContent = 'Tip: add this page to your Home Screen for a true full screen experience.';
-      elements.btnEnterFsLabel.textContent = 'Open Magazine';
-    }
-    showFsGate();
   }
 
   // =========================================================================
@@ -622,7 +549,7 @@
       const modalOpen = elements.thumbsModal.classList.contains('active') ||
         elements.settingsModal.classList.contains('active');
       const hoveringControls = document.querySelector('.bottom-dock:hover, .top-bar:hover');
-      if (!modalOpen && !hoveringControls && !isGateOpen()) {
+      if (!modalOpen && !hoveringControls) {
         elements.app.classList.add('ui-idle');
       } else {
         resetIdleTimer();
@@ -745,7 +672,7 @@
     updateSoundUI();
     elements.btnSound.addEventListener('click', () => {
       CONFIG.soundEnabled = !CONFIG.soundEnabled;
-      localStorage.setItem('wedding_jotter_sound', CONFIG.soundEnabled);
+      localStorage.setItem('wedding_Program_sound', CONFIG.soundEnabled);
       updateSoundUI();
       if (CONFIG.soundEnabled) {
         initAudio();
@@ -756,10 +683,12 @@
     // Slideshow
     elements.btnPlay.addEventListener('click', toggleAutoPlay);
 
-    // Compulsory fullscreen gate
-    elements.btnEnterFs.addEventListener('click', handleEnterFsClick);
-    document.addEventListener('fullscreenchange', onFullscreenChange);
-    document.addEventListener('webkitfullscreenchange', onFullscreenChange);
+    // Optional fullscreen toggle
+    if (elements.btnFullscreen) {
+      elements.btnFullscreen.addEventListener('click', toggleFullScreen);
+    }
+    document.addEventListener('fullscreenchange', updateFullscreenIcons);
+    document.addEventListener('webkitfullscreenchange', updateFullscreenIcons);
 
     // Thumbnails
     elements.btnThumbs.addEventListener('click', openThumbnails);
@@ -780,16 +709,6 @@
     window.addEventListener('keydown', (e) => {
       if (e.target.tagName === 'INPUT') return;
 
-      // While the fullscreen gate is showing, only allow entering fullscreen
-      if (isGateOpen()) {
-        if (e.target === elements.btnEnterFs) return; // native button activation handles Enter/Space
-        if (e.key === 'Enter' || e.key === ' ' || e.key === 'f' || e.key === 'F') {
-          e.preventDefault();
-          handleEnterFsClick();
-        }
-        return;
-      }
-
       resetIdleTimer();
 
       switch (e.key) {
@@ -809,7 +728,7 @@
           break;
         case 'f':
         case 'F':
-          if (!isFullScreen() && fsSupported) handleEnterFsClick();
+          toggleFullScreen();
           break;
         case 'Escape':
           closeModals();
@@ -845,7 +764,6 @@
   $(document).ready(() => {
     initFlipbook();
     bindEvents();
-    setupFsGate();
   });
 
 })();

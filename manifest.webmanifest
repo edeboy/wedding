@@ -1,0 +1,12 @@
+{
+  "name": "Tobore Wedding Jotter",
+  "short_name": "Wedding Jotter",
+  "description": "A Luxury Fullscreen Flip Ebook and Digital Wedding Magazine.",
+  "start_url": "wedding.html",
+  "display": "fullscreen",
+  "display_override": ["fullscreen", "standalone"],
+  "orientation": "any",
+  "background_color": "#060709",
+  "theme_color": "#08090b"
+}
+

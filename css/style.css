@@ -1,0 +1,838 @@
+/* ==========================================================================
+   TOBORE WEDDING JOTTER - LUXURY MAGAZINE FLIP EBOOK STYLES
+   ========================================================================== */
+
+:root {
+  --primary-gold: #d4af37;
+  --gold-light: #f7e7b4;
+  --gold-dark: #aa820a;
+  --bg-dark: #0f1115;
+  --bg-darker: #060709;
+  --bg-surface: rgba(18, 21, 28, 0.88);
+  --bg-surface-border: rgba(212, 175, 55, 0.28);
+  --text-main: #f5f5f7;
+  --text-muted: #9ba1b0;
+  --accent-rose: #d67d7d;
+  --book-shadow: 0 25px 70px rgba(0, 0, 0, 0.85), 0 10px 30px rgba(0, 0, 0, 0.7);
+  --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  --font-serif: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
+  --font-sans: 'Montserrat', system-ui, -apple-system, sans-serif;
+  --font-display: 'Cinzel Decorative', 'Playfair Display', serif;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: var(--font-sans);
+  background-color: var(--bg-darker);
+  color: var(--text-main);
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Background Atmosphere */
+.app-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background: radial-gradient(circle at 50% 45%, #181d26 0%, #0d0f14 60%, #040507 100%);
+  overflow: hidden;
+}
+
+.ambient-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 95vw;
+  height: 85vh;
+  background: radial-gradient(ellipse at center, rgba(212, 175, 55, 0.06) 0%, transparent 68%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ==========================================================================
+   HEADER / TOP BAR
+   ========================================================================== */
+.top-bar {
+  position: relative;
+  z-index: 30;
+  width: 100%;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.8rem;
+  background: linear-gradient(180deg, rgba(6, 7, 9, 0.95) 0%, rgba(6, 7, 9, 0.4) 80%, transparent 100%);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.brand-icon {
+  width: 30px;
+  height: 30px;
+  color: var(--primary-gold);
+  filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.5));
+}
+
+.brand-title {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  background: linear-gradient(135deg, #ffffff 15%, var(--gold-light) 60%, var(--primary-gold) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.page-indicator-badge {
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  color: var(--gold-light);
+  background: rgba(22, 26, 33, 0.7);
+  border: 1px solid var(--bg-surface-border);
+  padding: 0.4rem 1.2rem;
+  border-radius: 999px;
+  letter-spacing: 0.06em;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(8px);
+}
+
+.top-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+/* ==========================================================================
+   FLIPBOOK WORKSPACE
+   ========================================================================== */
+.book-stage {
+  position: relative;
+  z-index: 10;
+  flex: 1;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 12px;
+  overflow: hidden;
+}
+
+#flipbook-viewport {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.25s ease-out;
+}
+
+#flipbook {
+  position: relative;
+  box-shadow: var(--book-shadow);
+  border-radius: 6px;
+  background: #0b0c0e;
+  transform-style: preserve-3d;
+}
+
+/* Page Elements */
+#flipbook .page {
+  background-color: #faf9f6;
+  overflow: hidden;
+  position: relative;
+  border-radius: 2px;
+}
+
+.page-inner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background-color: #0b0c0e;
+}
+
+/* Photo Layer (using background image for perfect slicing & scaling) */
+.page-photo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-color: #0d0f14;
+  z-index: 2;
+  transition: opacity 0.3s ease;
+}
+
+/* Mode A: Single page portrait */
+.page-photo.mode-contain {
+  background-size: contain;
+  background-position: center center;
+}
+
+.page-photo.mode-cover {
+  background-size: cover;
+  background-position: center center;
+}
+
+/* Mode B: Sliced spread (Right half = Front cover / Odd pages) */
+.page-photo.mode-spread-right {
+  background-size: 200% 100%;
+  background-position: right center;
+}
+
+/* Mode C: Sliced spread (Left half = Back cover / Even pages) */
+.page-photo.mode-spread-left {
+  background-size: 200% 100%;
+  background-position: left center;
+}
+
+/* Spine shadow simulation */
+.page-shadow-left {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 45px;
+  height: 100%;
+  background: linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,0.25) 100%);
+  z-index: 5;
+  pointer-events: none;
+}
+
+.page-shadow-right {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 45px;
+  height: 100%;
+  background: linear-gradient(to left, rgba(0,0,0,0) 0%, rgba(0,0,0,0.25) 100%);
+  z-index: 5;
+  pointer-events: none;
+}
+
+/* Subtle page texture & edge highlight */
+.page-inner::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 1px rgba(255, 255, 255, 0.15);
+  pointer-events: none;
+  z-index: 6;
+}
+
+/* Hard Cover Styling */
+#flipbook .hard {
+  background: #0d0e12 !important;
+  color: #fff;
+  box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.8);
+}
+
+/* Elegant Placeholder for Missing/Loading Images */
+.placeholder-page {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2.8rem 2rem;
+  background: radial-gradient(circle at 50% 50%, #ffffff 0%, #f6f1e8 100%);
+  color: #2b2523;
+  z-index: 1;
+  text-align: center;
+}
+
+.hard .placeholder-page {
+  background: radial-gradient(circle at 50% 35%, #22252f 0%, #0e1015 100%);
+  color: #f7e7b4;
+}
+
+.placeholder-frame {
+  position: absolute;
+  inset: 14px;
+  border: 1px solid rgba(170, 130, 10, 0.4);
+  pointer-events: none;
+}
+
+.placeholder-frame::after {
+  content: '';
+  position: absolute;
+  inset: 5px;
+  border: 1px dashed rgba(170, 130, 10, 0.25);
+}
+
+.placeholder-header {
+  margin-top: 1.5rem;
+}
+
+.placeholder-ornament {
+  font-size: 1.6rem;
+  color: var(--primary-gold);
+  line-height: 1;
+  margin-bottom: 0.6rem;
+}
+
+.placeholder-title {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: inherit;
+}
+
+.placeholder-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.9rem;
+  max-width: 85%;
+}
+
+.placeholder-badge {
+  font-family: var(--font-serif);
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--primary-gold);
+  border: 2px solid var(--primary-gold);
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.4rem;
+  box-shadow: 0 4px 16px rgba(212, 175, 55, 0.25);
+}
+
+.placeholder-subtitle {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.05rem;
+  color: #555;
+}
+
+.hard .placeholder-subtitle {
+  color: #a0a5b5;
+}
+
+.placeholder-hint {
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  background: rgba(212, 175, 55, 0.15);
+  border: 1px solid rgba(212, 175, 55, 0.45);
+  padding: 0.45rem 0.9rem;
+  border-radius: 6px;
+  color: var(--primary-gold);
+}
+
+.placeholder-footer {
+  margin-bottom: 0.5rem;
+  font-family: var(--font-serif);
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+  opacity: 0.75;
+}
+
+.page-stamp {
+  display: none !important;
+}
+
+/* ==========================================================================
+   SIDE NAVIGATION ARROWS
+   ========================================================================== */
+.nav-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 25;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(18, 21, 28, 0.75);
+  border: 1px solid var(--bg-surface-border);
+  color: var(--gold-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: var(--transition-smooth);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+}
+
+.nav-arrow svg {
+  width: 26px;
+  height: 26px;
+  transition: transform 0.2s ease;
+}
+
+.nav-arrow:hover {
+  background: rgba(212, 175, 55, 0.25);
+  border-color: var(--primary-gold);
+  color: #ffffff;
+  transform: translateY(-50%) scale(1.12);
+  box-shadow: 0 0 24px rgba(212, 175, 55, 0.4);
+}
+
+.nav-arrow.prev {
+  left: 24px;
+}
+
+.nav-arrow.prev:hover svg {
+  transform: translateX(-4px);
+}
+
+.nav-arrow.next {
+  right: 24px;
+}
+
+.nav-arrow.next:hover svg {
+  transform: translateX(4px);
+}
+
+.nav-arrow.disabled {
+  opacity: 0.2;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   BOTTOM CONTROLS BAR (GLASSMORPHIC DOCK)
+   ========================================================================== */
+.bottom-dock {
+  position: relative;
+  z-index: 30;
+  width: auto;
+  max-width: 95%;
+  margin-bottom: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.55rem 1.2rem;
+  background: var(--bg-surface);
+  border: 1px solid var(--bg-surface-border);
+  border-radius: 999px;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.6);
+}
+
+.ctrl-btn {
+  background: transparent;
+  border: none;
+  outline: none;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  position: relative;
+}
+
+.ctrl-btn svg {
+  width: 20px;
+  height: 20px;
+  transition: transform 0.2s;
+}
+
+.ctrl-btn:hover {
+  color: var(--gold-light);
+  background: rgba(255, 255, 255, 0.09);
+  transform: scale(1.08);
+}
+
+.ctrl-btn.active {
+  color: var(--primary-gold);
+  background: rgba(212, 175, 55, 0.18);
+  border: 1px solid rgba(212, 175, 55, 0.35);
+}
+
+.ctrl-btn:active {
+  transform: scale(0.95);
+}
+
+.dock-divider {
+  width: 1px;
+  height: 24px;
+  background: rgba(255, 255, 255, 0.15);
+  margin: 0 0.3rem;
+}
+
+/* Scrubber Slider */
+.scrubber-container {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0 0.6rem;
+}
+
+.scrubber-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 150px;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+  outline: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.scrubber-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--primary-gold);
+  box-shadow: 0 0 12px rgba(212, 175, 55, 0.7);
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.scrubber-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.3);
+}
+
+.scrubber-slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--primary-gold);
+  border: none;
+  box-shadow: 0 0 12px rgba(212, 175, 55, 0.7);
+  cursor: pointer;
+}
+
+/* Tooltip on button hover */
+.tooltip {
+  position: relative;
+}
+
+.tooltip::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 12px);
+  left: 50%;
+  transform: translateX(-50%) translateY(5px);
+  background: #11141b;
+  border: 1px solid var(--bg-surface-border);
+  color: var(--gold-light);
+  font-size: 0.74rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: 6px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s, transform 0.2s;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+  z-index: 100;
+}
+
+.tooltip:hover::after {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ==========================================================================
+   THUMBNAILS DRAWER MODAL
+   ========================================================================== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(4, 5, 7, 0.85);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.thumbnails-sheet {
+  width: 100%;
+  max-width: 1250px;
+  max-height: 80vh;
+  background: #13161e;
+  border-top-left-radius: 22px;
+  border-top-right-radius: 22px;
+  border: 1px solid var(--bg-surface-border);
+  border-bottom: none;
+  display: flex;
+  flex-direction: column;
+  transform: translateY(100%);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+  box-shadow: 0 -12px 45px rgba(0, 0, 0, 0.8);
+}
+
+.modal-overlay.active .thumbnails-sheet {
+  transform: translateY(0);
+}
+
+.sheet-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.3rem 2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.sheet-title {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  color: var(--gold-light);
+  letter-spacing: 0.06em;
+}
+
+.close-sheet-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0.45rem;
+  border-radius: 50%;
+  display: flex;
+  transition: color 0.2s, background 0.2s;
+}
+
+.close-sheet-btn:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.thumbnails-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(135px, 1fr));
+  gap: 1.25rem;
+  padding: 1.8rem;
+  overflow-y: auto;
+  max-height: calc(80vh - 80px);
+}
+
+.thumb-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+  border-radius: 8px;
+  padding: 6px;
+  border: 1px solid transparent;
+}
+
+.thumb-card:hover {
+  transform: translateY(-4px);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.thumb-card.active {
+  border-color: var(--primary-gold);
+  background: rgba(212, 175, 55, 0.12);
+}
+
+.thumb-preview {
+  width: 100%;
+  aspect-ratio: 1 / 1.414;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #0d0f14;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.thumb-preview .thumb-img {
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+}
+
+.thumb-placeholder {
+  font-family: var(--font-serif);
+  font-size: 1.3rem;
+  color: var(--primary-gold);
+  font-weight: 600;
+}
+
+.thumb-label {
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.thumb-card.active .thumb-label {
+  color: var(--primary-gold);
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   SETTINGS MODAL
+   ========================================================================== */
+.settings-modal-dialog {
+  width: 90%;
+  max-width: 480px;
+  background: #141720;
+  border-radius: 18px;
+  border: 1px solid var(--bg-surface-border);
+  box-shadow: 0 20px 55px rgba(0, 0, 0, 0.85);
+  padding: 1.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.3rem;
+  margin: auto;
+}
+
+.settings-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.settings-label {
+  font-size: 0.88rem;
+  color: var(--gold-light);
+  font-weight: 500;
+}
+
+.settings-input, .settings-select {
+  background: #0b0d12;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 8px;
+  padding: 0.7rem 0.9rem;
+  color: #fff;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s;
+  font-family: inherit;
+}
+
+.settings-input:focus, .settings-select:focus {
+  border-color: var(--primary-gold);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--gold-light) 0%, var(--primary-gold) 100%);
+  color: #08090b;
+  border: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.8rem 1.4rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.15s;
+  letter-spacing: 0.04em;
+}
+
+.btn-primary:hover {
+  opacity: 0.92;
+  transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN & MOBILE OPTIMIZATIONS
+   ========================================================================== */
+@media (max-width: 768px) {
+  .top-bar {
+    padding: 0 1rem;
+    height: 52px;
+  }
+
+  .brand-title {
+    font-size: 0.95rem;
+  }
+
+  .page-indicator-badge {
+    font-size: 0.82rem;
+    padding: 0.25rem 0.8rem;
+  }
+
+  .nav-arrow {
+    width: 44px;
+    height: 44px;
+  }
+
+  .nav-arrow.prev {
+    left: 10px;
+  }
+
+  .nav-arrow.next {
+    right: 10px;
+  }
+
+  .bottom-dock {
+    padding: 0.4rem 0.7rem;
+    gap: 0.4rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .ctrl-btn {
+    width: 38px;
+    height: 38px;
+  }
+
+  .scrubber-slider {
+    width: 95px;
+  }
+
+  .placeholder-page {
+    padding: 1.6rem 1.2rem;
+  }
+
+  .placeholder-badge {
+    width: 60px;
+    height: 60px;
+    font-size: 2rem;
+  }
+
+  .placeholder-title {
+    font-size: 1.05rem;
+  }
+}
+
+/* Native Fullscreen mode styling */
+:fullscreen, :-webkit-full-screen {
+  background: #040507;
+}

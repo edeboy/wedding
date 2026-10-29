@@ -1,26 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="viewport" content="width=1024, user-scalable=yes">
   <meta name="theme-color" content="#08090b">
   <!-- Fullscreen / app-like behaviour when launched from a home screen -->
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Wedding Jotter">
+  <meta name="apple-mobile-web-app-title" content="Wedding Program">
   <link rel="manifest" href="manifest.webmanifest">
-  <meta name="description" content="Tobore Wedding Jotter - A Luxury Fullscreen Flip Ebook and Digital Wedding Magazine.">
-  <title>Tobore Wedding Jotter | Luxury Flip Magazine</title>
+  <meta name="description"
+    content="Tobore Wedding Program - A Luxury Fullscreen Flip Ebook and Digital Wedding Magazine.">
+  <title>Tobore Wedding Program | Luxury Flip Magazine</title>
 
   <!-- Google Fonts for Luxury Editorial Aesthetics -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+    rel="stylesheet">
 
   <!-- Core Stylesheet -->
   <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
 
   <div class="app-container" id="app-container">
@@ -30,12 +35,13 @@
     <header class="top-bar">
       <div class="brand">
         <!-- Luxury Wedding Ring/Emblem SVG -->
-        <svg class="brand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <svg class="brand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+          stroke-linecap="round" stroke-linejoin="round">
           <circle cx="8" cy="12" r="6"></circle>
           <circle cx="16" cy="12" r="6"></circle>
           <path d="M12 7l1-2h2l1 2"></path>
         </svg>
-        <h1 class="brand-title">Tobore Wedding Jotter</h1>
+        <h1 class="brand-title">Tobore Wedding Program</h1>
       </div>
 
       <!-- Current Page Counter / Status Badge -->
@@ -46,9 +52,12 @@
       <!-- Top Quick Action Icons -->
       <div class="top-actions">
         <button id="btn-settings" class="ctrl-btn tooltip" data-tooltip="Settings & Page Count" aria-label="Settings">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
             <circle cx="12" cy="12" r="3"></circle>
-            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+            <path
+              d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
+            </path>
           </svg>
         </button>
       </div>
@@ -58,7 +67,8 @@
     <main class="book-stage" id="book-stage">
       <!-- Floating Side Chevron Arrows -->
       <button class="nav-arrow prev" id="side-prev" aria-label="Previous Page">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+          stroke-linejoin="round">
           <polyline points="15 18 9 12 15 6"></polyline>
         </svg>
       </button>
@@ -71,7 +81,8 @@
       </div>
 
       <button class="nav-arrow next" id="side-next" aria-label="Next Page">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+          stroke-linejoin="round">
           <polyline points="9 18 15 12 9 6"></polyline>
         </svg>
       </button>
@@ -81,7 +92,8 @@
     <footer class="bottom-dock">
       <!-- First Page -->
       <button id="btn-first" class="ctrl-btn tooltip" data-tooltip="First Page (Cover)" aria-label="First Page">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
           <polygon points="19 20 9 12 19 4 19 20"></polygon>
           <line x1="5" y1="19" x2="5" y2="5"></line>
         </svg>
@@ -89,26 +101,30 @@
 
       <!-- Previous Page -->
       <button id="btn-prev" class="ctrl-btn tooltip" data-tooltip="Previous (←)" aria-label="Previous Page">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+          stroke-linejoin="round">
           <polyline points="15 18 9 12 15 6"></polyline>
         </svg>
       </button>
 
       <!-- Page Scrubber Slider -->
       <div class="scrubber-container">
-        <input type="range" class="scrubber-slider" id="page-scrubber" min="1" max="12" value="1" aria-label="Page Scrubber">
+        <input type="range" class="scrubber-slider" id="page-scrubber" min="1" max="12" value="1"
+          aria-label="Page Scrubber">
       </div>
 
       <!-- Next Page -->
       <button id="btn-next" class="ctrl-btn tooltip" data-tooltip="Next (→ or Space)" aria-label="Next Page">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+          stroke-linejoin="round">
           <polyline points="9 18 15 12 9 6"></polyline>
         </svg>
       </button>
 
       <!-- Last Page -->
       <button id="btn-last" class="ctrl-btn tooltip" data-tooltip="Last Page (End)" aria-label="Last Page">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
           <polygon points="5 4 15 12 5 20 5 4"></polygon>
           <line x1="19" y1="5" x2="19" y2="19"></line>
         </svg>
@@ -117,7 +133,8 @@
       <div class="dock-divider"></div>
 
       <!-- Auto-Play Slideshow -->
-      <button id="btn-play" class="ctrl-btn tooltip" data-tooltip="Auto Play Slideshow" aria-label="Auto Play Slideshow">
+      <button id="btn-play" class="ctrl-btn tooltip" data-tooltip="Auto Play Slideshow"
+        aria-label="Auto Play Slideshow">
         <svg id="play-icon" viewBox="0 0 24 24" fill="currentColor">
           <polygon points="6 4 20 12 6 20 6 4"></polygon>
         </svg>
@@ -129,11 +146,13 @@
 
       <!-- Page Flip Sound Toggle -->
       <button id="btn-sound" class="ctrl-btn tooltip" data-tooltip="Page Turning Sound" aria-label="Toggle Sound">
-        <svg id="sound-icon-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg id="sound-icon-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
           <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
           <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
         </svg>
-        <svg id="sound-icon-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+        <svg id="sound-icon-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" style="display: none;">
           <line x1="1" y1="1" x2="23" y2="23"></line>
           <path d="M9 9v3a3 3 0 0 0 5.12 2.12M15 9.34V4a3 3 0 0 0-5.94-.6"></path>
           <path d="M17 16.95A7 7 0 0 1 5 12v-2m14 0v2a7 7 0 0 1-.11 1.23"></path>
@@ -144,38 +163,35 @@
 
       <!-- Thumbnails Drawer Grid -->
       <button id="btn-thumbs" class="ctrl-btn tooltip" data-tooltip="Page Thumbnails" aria-label="Show Thumbnails">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
           <rect x="3" y="3" width="7" height="7"></rect>
           <rect x="14" y="3" width="7" height="7"></rect>
           <rect x="14" y="14" width="7" height="7"></rect>
           <rect x="3" y="14" width="7" height="7"></rect>
         </svg>
       </button>
-    </footer>
 
-    <!-- Compulsory Fullscreen Gate (browsers only allow fullscreen after a tap/click) -->
-    <div class="fs-gate active" id="fs-gate" role="dialog" aria-modal="true" aria-labelledby="fs-gate-title">
-      <div class="fs-gate-card">
-        <svg class="fs-gate-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="8" cy="12" r="6"></circle>
-          <circle cx="16" cy="12" r="6"></circle>
-          <path d="M12 7l1-2h2l1 2"></path>
+      <div class="dock-divider"></div>
+
+      <!-- Optional Fullscreen Toggle -->
+      <button id="btn-fullscreen" class="ctrl-btn tooltip" data-tooltip="Fullscreen (F)" aria-label="Toggle Fullscreen">
+        <svg id="icon-fs-enter" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 3 21 3 21 9"></polyline>
+          <polyline points="9 21 3 21 3 15"></polyline>
+          <line x1="21" y1="3" x2="14" y2="10"></line>
+          <line x1="3" y1="21" x2="10" y2="14"></line>
         </svg>
-        <div class="fs-gate-ornament">❧ ❦ ☙</div>
-        <h2 class="fs-gate-title" id="fs-gate-title">Tobore Wedding Jotter</h2>
-        <p class="fs-gate-text" id="fs-gate-text">This magazine is designed to be enjoyed in full screen.</p>
-        <button class="btn-primary fs-gate-btn" id="btn-enter-fs">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="15 3 21 3 21 9"></polyline>
-            <polyline points="9 21 3 21 3 15"></polyline>
-            <line x1="21" y1="3" x2="14" y2="10"></line>
-            <line x1="3" y1="21" x2="10" y2="14"></line>
-          </svg>
-          <span id="btn-enter-fs-label">Open Magazine in Full Screen</span>
-        </button>
-        <p class="fs-gate-hint">Tap or press <kbd>Enter</kbd> to begin</p>
-      </div>
-    </div>
+        <svg id="icon-fs-exit" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+          <polyline points="4 14 10 14 10 20"></polyline>
+          <polyline points="20 10 14 10 14 4"></polyline>
+          <line x1="14" y1="10" x2="21" y2="3"></line>
+          <line x1="3" y1="21" x2="10" y2="14"></line>
+        </svg>
+      </button>
+    </footer>
 
     <!-- Thumbnails Sheet Modal -->
     <div class="modal-overlay" id="thumbs-modal">
@@ -211,7 +227,8 @@
         <div class="settings-group">
           <label class="settings-label" for="input-total-pages">Total Number of Pages</label>
           <input type="number" id="input-total-pages" class="settings-input" min="2" max="200" value="12">
-          <span style="font-size: 0.75rem; color: #7f8596;">Match this number to how many images (1.jpg, 2.jpg...) you have in the images folder.</span>
+          <span style="font-size: 0.75rem; color: #7f8596;">Match this number to how many images (1.jpg, 2.jpg...) you
+            have in the images folder.</span>
         </div>
 
         <button id="btn-save-settings" class="btn-primary">Apply &amp; Refresh Magazine</button>
@@ -227,4 +244,5 @@
   <!-- Magazine Flip Logic -->
   <script src="js/magazine.js"></script>
 </body>
+
 </html>
